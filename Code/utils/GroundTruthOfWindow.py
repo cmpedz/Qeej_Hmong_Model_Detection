@@ -3,30 +3,29 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 import pandas as pd
+import matplotlib.pyplot as plt
 import re
 
 
-def DetectSoundOfWindows(audioPath):
-    signal, fs = sf.read(audioPath)
+def DrawWaveFormOfAudio(audio_path):
+    signal, fs = sf.read(audio_path)
+    time = np.arange(len(signal)) / fs
+    window_size = 0.01
 
-    # 10 ms window
-    window_size = int(0.01 * fs)
+    # Vẽ waveform
+    plt.figure(figsize=(12, 4))
+    plt.plot(time, signal)
+    plt.xlabel("Time (seconds)")
+    plt.ylabel("Amplitude")
+    plt.title("Waveform of audio signal")
+    plt.xticks(np.arange(0, time[-1], window_size))
+    plt.tight_layout()
 
-    windows = [
-        signal[i:i+window_size]
-        for i in range(0, len(signal) - window_size, window_size)
-    ]
+    for t in np.arange(0, time[-1], window_size):
+        plt.axvline(t, linewidth=0.3)
 
-    for k, w in enumerate(windows):
-        start_time = k * 0.01
-        end_time = start_time + 0.01
+    plt.show()
 
-        print(f"\nWindow {k} | {start_time:.3f}s – {end_time:.3f}s")
-        sd.play(w, fs)
-        sd.wait()
-        cmd = input("Enter = next | q = quit: ")
-        if cmd.lower() == 'q':
-            break
 
 def CreateCsvOfAudio(audioPath, saveFolder = "Đơn_ống"):
     signal, fs = sf.read(audioPath)
@@ -52,6 +51,18 @@ def CreateCsvOfAudio(audioPath, saveFolder = "Đơn_ống"):
     csv_name = audio_name.replace(".wav",".csv")
     df.to_csv(save_path + csv_name, index=False)
 
+def CreateCsvOfAllAudiosInAFolder(folder_path, save_folder= "Đơn_ống"):
+    folder_path = Path(folder_path)
+    wav_files = list(folder_path.glob("*.wav"))
+    for wav_file in wav_files:
+        print("create csv file for audio file:", wav_file)
+        CreateCsvOfAudio(wav_file, save_folder)
+
 if __name__ == "__main__":
-    audio_path_test = "../Data/audio/Đơn_ống/drone_gần.wav"
-    CreateCsvOfAudio(audio_path_test)
+
+    # tạo csv để gán nhãn cho dữ liệu audio tương ứng
+    # audio_path_test = "../Data/audio/Đa_ống/4_ống"
+    # CreateCsvOfAllAudiosInAFolder(folder_path=audio_path_test, save_folder="Đa_ống/4_ống")
+
+    audio_path = "../Data/audio/Khèn 1/Đơn_ống/drone_xa2.wav"
+    DrawWaveFormOfAudio(audio_path)
