@@ -11,6 +11,7 @@ def DrawWaveFormOfAudio(audio_path):
     signal, fs = sf.read(audio_path)
     time = np.arange(len(signal)) / fs
     window_size = 0.01
+    audio_name = Path(audio_path).name
 
     # Vẽ waveform
     plt.figure(figsize=(12, 4))
@@ -23,7 +24,7 @@ def DrawWaveFormOfAudio(audio_path):
 
     for t in np.arange(0, time[-1], window_size):
         plt.axvline(t, linewidth=0.3)
-
+    plt.title(audio_name)
     plt.show()
 
 
@@ -64,5 +65,5 @@ if __name__ == "__main__":
     # audio_path_test = "../Data/audio/Đa_ống/4_ống"
     # CreateCsvOfAllAudiosInAFolder(folder_path=audio_path_test, save_folder="Đa_ống/4_ống")
 
-    audio_path = "../Data/audio/Khèn 1/Đơn_ống/drone_xa2.wav"
+    audio_path = "../Data/audio/Khèn 1/Đơn_ống/trái_3_xa2.wav"
     DrawWaveFormOfAudio(audio_path)
