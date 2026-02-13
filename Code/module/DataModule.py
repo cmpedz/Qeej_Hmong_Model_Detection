@@ -19,7 +19,7 @@ class DataModule:
         spectrum = self.__extract_dft(window)
 
         #preprocessing
-        standard_spectrum = spectrum#self.__suppress_low_amplitudes(spectrum)
+        standard_spectrum = self.__suppress_low_amplitudes(spectrum)
 
         return standard_spectrum
     

@@ -53,7 +53,7 @@ model.compile(
 #trainning model
 
 X_train, X_temp, y_train, y_temp = train_test_split(
-    X, y_cat, test_size=0.2, stratify=y_int)
+    X, y_cat, test_size=0.1, stratify=y_int)
 
 X_val, X_test, y_val, y_test = train_test_split(
     X_temp, y_temp, test_size=0.5)
