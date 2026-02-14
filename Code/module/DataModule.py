@@ -23,7 +23,7 @@ class DataModule:
 
         return standard_spectrum
     
-    def __process_one_file_audio(
+    def process_one_file_audio(
         self,
         audio_path,
         csv_path,
@@ -54,7 +54,52 @@ class DataModule:
             X.append(spectrum)
             y.append(row["label"])
 
-        return np.array(X), np.array(y)
+        # reducing silence sample
+        silence_label = '"silence"'
+        flag = True
+        start_index = 0
+        end_index = len(y) - 1
+        max_silence_label = 3
+        X_reduced = []
+        y_reduced = []
+        while flag:
+
+            if y[start_index] == silence_label:
+                start_index += 1
+
+            if y[end_index] == silence_label:
+                end_index -= 1
+
+            if y[start_index] != silence_label and y[end_index] != silence_label:
+                X_reduced = X[start_index:end_index + 1]
+                y_reduced = y[start_index:end_index + 1]
+
+                print("check start_index:", start_index)
+                print("check end_index:", end_index)
+
+                num_start_silence = start_index - 0
+                num_end_silence = len(y) - 1 - end_index
+
+                if num_start_silence > max_silence_label:
+                    num_start_silence = max_silence_label
+
+                if num_end_silence > max_silence_label:
+                    num_end_silence = max_silence_label
+
+                for i in np.arange(num_start_silence):
+                    X_reduced.append(X[i])
+                    y_reduced.append(y[i])
+
+                for i in np.arange(num_end_silence):
+                    end_index = len(y) - 1 - i
+                    X_reduced.append(X[end_index])
+                    y_reduced.append(y[end_index])
+
+                flag = False
+                
+
+
+        return np.array(X_reduced), np.array(y_reduced)
     
     def build_dataset(self, audio_dir, csv_dir):
         audio_dir = Path(audio_dir)
@@ -70,7 +115,7 @@ class DataModule:
                 print(f"unable to find csv file for {audio_file.name}")
                 continue
 
-            X, y = self.__process_one_file_audio(audio_file, csv_file)
+            X, y = self.process_one_file_audio(audio_file, csv_file)
 
             X_all.append(X)
             y_all.append(y)
@@ -83,10 +128,17 @@ class DataModule:
 
 
 if __name__ == "__main__":
-    audio_dir = "../Data/audio/Khèn 1/Đơn_ống"
-    labels_dir = "../Data/labels/Khèn 1/Đơn_ống"
-    dataModule = DataModule()
-    X, y = dataModule.build_dataset(audio_dir, labels_dir)
+    # audio_dir = "../Data/audio/Khèn 1/Đơn_ống"
+    # labels_dir = "../Data/labels/Khèn 1/Đơn_ống"
+    # dataModule = DataModule()
+    # X, y = dataModule.build_dataset(audio_dir, labels_dir)
     
-    print("X shape:", X.shape)
-    print("y shape:", y.shape)
+    # print("X shape:", X.shape)
+    # print("y shape:", y.shape)
+
+    audio_path = "../Data/audio/Khèn 3 (vừa)/Đơn ống/drone_gan.wav"
+    csv_path = "../Data/labels/Khèn 3 (vừa)/Đơn_ống/drone_gan.csv"
+    data_module = DataModule()
+    X, y = data_module.process_one_file_audio(audio_path, csv_path)
+
+    print(y)
