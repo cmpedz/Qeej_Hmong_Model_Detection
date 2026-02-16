@@ -65,5 +65,5 @@ if __name__ == "__main__":
     # audio_path_test = "../Data/audio/Khèn 4 (to)/Đơn ống"
     # CreateCsvOfAllAudiosInAFolder(folder_path=audio_path_test, save_folder="Khèn 4 (to)/Đơn_ống")
 
-    audio_path = "../Data/audio/Khèn 4 (to)/Đơn ống/drone_xa2.wav"
+    audio_path = "../Data/audio/Khèn 4 (to)/Đơn ống/1_phai_xa2.wav"
     DrawWaveFormOfAudio(audio_path)

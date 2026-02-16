@@ -55,7 +55,7 @@ class DataModule:
             y.append(row["label"])
 
         # reducing silence sample
-        silence_label = '"silence"'
+        silence_label = "silence"
         flag = True
         start_index = 0
         end_index = len(y) - 1
@@ -74,8 +74,6 @@ class DataModule:
                 X_reduced = X[start_index:end_index + 1]
                 y_reduced = y[start_index:end_index + 1]
 
-                print("check start_index:", start_index)
-                print("check end_index:", end_index)
 
                 num_start_silence = start_index - 0
                 num_end_silence = len(y) - 1 - end_index

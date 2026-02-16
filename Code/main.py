@@ -13,10 +13,43 @@ import matplotlib.pyplot as plt
 from sklearn.utils.class_weight import compute_class_weight
 
 #label data
-audio_dir = "../Data/audio/Khèn 1/Đơn_ống"
-labels_dir = "../Data/labels/Khèn 1/Đơn_ống"
+X = []
+y = []
 dataModule = DataModule()
-X, y = dataModule.build_dataset(audio_dir, labels_dir)
+
+#qeej 1
+audio_dir_qeej_1 = "../Data/audio/Khèn 1/Đơn_ống"
+labels_dir_qeej_1 = "../Data/labels/Khèn 1/Đơn_ống"
+X_qeej_1, y_qeej_1 = dataModule.build_dataset(audio_dir_qeej_1, labels_dir_qeej_1)
+X.extend(X_qeej_1)
+y.extend(y_qeej_1)
+
+#qeej 2
+audio_dir_qeej_2 = "../Data/audio/Khèn 2 (vừa)/Đơn ống"
+labels_dir_qeej_2 = "../Data/labels/Khèn 2 (vừa)/Đơn_ống"
+X_qeej_2, y_qeej_2 = dataModule.build_dataset(audio_dir_qeej_2, labels_dir_qeej_2)
+X.extend(X_qeej_2)
+y.extend(y_qeej_2)
+
+#qeej 3
+audio_dir_qeej_3 = "../Data/audio/Khèn 3 (vừa)/Đơn ống"
+labels_dir_qeej_3 = "../Data/labels/Khèn 3 (vừa)/Đơn_ống"
+X_qeej_3, y_qeej_3 = dataModule.build_dataset(audio_dir_qeej_3, labels_dir_qeej_3)
+X.extend(X_qeej_3)
+y.extend(y_qeej_3)
+
+#qeej 4
+audio_dir_qeej_4 = "../Data/audio/Khèn 4 (to)/Đơn ống"
+labels_dir_qeej_4 = "../Data/labels/Khèn 4 (to)/Đơn_ống"
+X_qeej_4, y_qeej_4 = dataModule.build_dataset(audio_dir_qeej_4, labels_dir_qeej_4)
+X.extend(X_qeej_4)
+y.extend(y_qeej_4)
+
+X = np.vstack(X)
+print("check len X:", len(X))
+print("check len y:", len(y))
+
+
 
 #label encoding
 le = LabelEncoder()
@@ -76,8 +109,8 @@ model.fit(
     y_train,
     validation_data=(X_val[..., np.newaxis], y_val),
     class_weight=class_weight_dict,
-    epochs=30,
-    batch_size=100
+    epochs=100,
+    batch_size=1000
 )
 
 #assess model
