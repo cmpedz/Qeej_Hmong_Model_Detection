@@ -45,6 +45,13 @@ X_qeej_4, y_qeej_4 = dataModule.build_dataset(audio_dir_qeej_4, labels_dir_qeej_
 X.extend(X_qeej_4)
 y.extend(y_qeej_4)
 
+#qeej 5
+audio_dir_qeej_5 = "../Data/audio/Khèn 5 (to)/Đơn ống"
+labels_dir_qeej_5 = "../Data/labels/Khèn 5 (to)/Đơn_ống"
+X_qeej_5, y_qeej_5 = dataModule.build_dataset(audio_dir_qeej_5, labels_dir_qeej_5)
+X.extend(X_qeej_5)
+y.extend(y_qeej_5)
+
 X = np.vstack(X)
 print("check len X:", len(X))
 print("check len y:", len(y))
@@ -86,13 +93,18 @@ model.compile(
 #trainning model
 
 X_train, X_temp, y_train, y_temp = train_test_split(
-    X, y_cat, test_size=0.1, stratify=y_int)
+    X, y_cat, test_size=0.4, stratify=y_int)
 
 X_val, X_test, y_val, y_test = train_test_split(
-    X_temp, y_temp, test_size=0.5)
+    X_temp, y_temp, test_size=0.1)
 
 y_train_int = np.argmax(y_train, axis=1)
 print("check y train int:", y_train_int)
+
+unique, counts = np.unique(y_train_int, return_counts=True)
+
+for label, count in zip(unique, counts):
+    print(f"Class {label}: {count} samples")
 
 class_weights = compute_class_weight(
     class_weight="balanced",
@@ -109,8 +121,8 @@ model.fit(
     y_train,
     validation_data=(X_val[..., np.newaxis], y_val),
     class_weight=class_weight_dict,
-    epochs=100,
-    batch_size=1000
+    epochs=10000,
+    batch_size=500
 )
 
 #assess model
