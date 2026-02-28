@@ -139,4 +139,4 @@ if __name__ == "__main__":
     data_module = DataModule()
     X, y = data_module.process_one_file_audio(audio_path, csv_path)
 
-    print(y)
+    print(X[0])

@@ -62,8 +62,8 @@ def CreateCsvOfAllAudiosInAFolder(folder_path, save_folder= "Đơn_ống"):
 if __name__ == "__main__":
 
     # tạo csv để gán nhãn cho dữ liệu audio tương ứng
-    # audio_path_test = "../Data/audio/Khèn 5 (to)/Đơn ống"
-    # CreateCsvOfAllAudiosInAFolder(folder_path=audio_path_test, save_folder="Khèn 5 (to)/Đơn_ống")
+    # audio_path_test = "../Data/audio/Khèn 5 (to)/Đa ống/6_ống"
+    # CreateCsvOfAllAudiosInAFolder(folder_path=audio_path_test, save_folder="Khèn 5 (to)/Đa_ống/6_ống")
 
-    audio_path = "../Data/audio/Khèn 3 (vừa)/Đa ống/6_ống/6_ong_xa2.wav"
+    audio_path = "../Data/audio/Khèn 4 (to)/Đa ống/6_ống/6_ong_2.wav"
     DrawWaveFormOfAudio(audio_path)
