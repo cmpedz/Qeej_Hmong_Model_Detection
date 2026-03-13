@@ -10,6 +10,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
+Experiments/test_1.ipynb
 dist/
 downloads/
 eggs/
