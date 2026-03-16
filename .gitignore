@@ -11,6 +11,7 @@ __pycache__/
 build/
 develop-eggs/
 Experiments/test_1.ipynb
+Data/spectrograms_fixed
 dist/
 downloads/
 eggs/
