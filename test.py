@@ -250,7 +250,7 @@ def create_labels_for_audios_in_folder(audio_folder):
 # for audios_path in audios_paths:
 #     analyzing_spectrograms_for_audios_in_folder(audios_path)
 
-audio_path = "./Data/audio/Khèn 4 (to)/Đa_ống/6_ống/6_ong_2.wav"
+audio_path = "./Data/audio/Khèn 5 (to)/Đa_ống/6_ống/6_ong_xa2.wav"
 
 analyze_spectrogram_by_CQT_of_audio(audio_path, "")
     
