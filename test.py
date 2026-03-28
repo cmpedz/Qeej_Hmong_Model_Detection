@@ -42,24 +42,29 @@ def preprocess_audio(audio):
 
     return audio
 
-def analyze_spectrogram_by_CQT_of_audio(audio_path, img_path):
 
+hop_length = 512
+
+def get_CQT_of_a_audio(audio_path):
     y, sr = librosa.load(audio_path, sr=None)
-
-    # y = preprocess_audio(y)
-
-    hop_length = 512
-
 
     C = librosa.cqt(
         y,
         sr=sr,
         hop_length=hop_length,
         fmin=librosa.note_to_hz('C3'),
-        n_bins=252,
-        bins_per_octave=36
+        n_bins=84,
+        bins_per_octave=12
     )
 
+    return C, sr
+
+
+
+def analyze_spectrogram_by_CQT_of_audio(audio_path, img_path, is_saving = True):
+
+    C, sr = get_CQT_of_a_audio(audio_path)
+   
     n_frames = C.shape[1]
 
     frame_time = hop_length / sr
@@ -101,7 +106,8 @@ def analyze_spectrogram_by_CQT_of_audio(audio_path, img_path):
 
     plt.show()
 
-    # plt.savefig(img_path, dpi=300)
+    if is_saving:
+       plt.savefig(img_path, dpi=300)
 
 def analyzing_spectrograms_for_audios_in_folder(audio_folder):
 
@@ -245,14 +251,67 @@ def create_labels_for_audios_in_folder(audio_folder):
 # ## Save Spectrograms of audios into folder
 
 # %%
-# audios_paths = ["./Data/audio/Khèn 1", "./Data/audio/Khèn 2 (vừa)","./Data/audio/Khèn 3 (vừa)", "./Data/audio/Khèn 4 (to)", "./Data/audio/Khèn 5 (to)"]
+audio_path = "./Data/audio_extends/Khèn 8/Đơn_ống/Không bịt thổi ra_1.wav"
 
-# for audios_path in audios_paths:
-#     analyzing_spectrograms_for_audios_in_folder(audios_path)
+analyze_spectrogram_by_CQT_of_audio(audio_path, "", is_saving=False)
 
-audio_path = "./Data/audio/Khèn 5 (to)/Đa_ống/6_ống/6_ong_xa2.wav"
+# C, sr = get_CQT_of_a_audio(audio_path)
 
-analyze_spectrogram_by_CQT_of_audio(audio_path, "")
+# n_frames = C.shape[1]
+
+# frame_time = hop_length / sr
+
+# time_analyzed = 1 #s
+
+# quantities_frame_analyzed = time_analyzed // frame_time
+
+   
+# C_db = librosa.amplitude_to_db(np.abs(C))
+# print("Check C_db.shape(1):", C_db.shape[1])
+
+# for i in np.arange(0, n_frames, quantities_frame_analyzed):
+
+#     print(int(i), int(i+quantities_frame_analyzed))
+#     C_db_analyzed = C_db[:, int(i):int(i+quantities_frame_analyzed)]
+#     start_time_analyzed = i/quantities_frame_analyzed
+#     last_time_analyzed = (i+quantities_frame_analyzed) / quantities_frame_analyzed
+#     title = f"Analyze cqt from {start_time_analyzed} s - {last_time_analyzed} s"
+
+#     print(C_db_analyzed)
+#     plt.figure(figsize=(12,6))
+
+#     librosa.display.specshow(
+#             C_db_analyzed,
+#             sr=sr,
+#             hop_length=hop_length,
+#             x_axis='time',
+#             y_axis='cqt_note'
+#     )
+
+#     img_path_new = img_path + f"/{title}.png"
+#     plt.title(title)
+#     plt.colorbar(format="%+2.0f dB")
+#     plt.tight_layout()
+#     plt.savefig(img_path_new, dpi=300)
+
+
+
+
+
+
+
+# def remove_drone_out_of_audio(drone_cqt, pipe_cqt):
+#     new_pipe_cqt = drone_cqt - pipe_cqt
+
+# drone_path = "./Data/audio/Khèn 4 (to)/Đơn_ống/drone_gan.wav"
+
+# other_pipes_path = ["./Data/audio/Khèn 4 (to)/Đơn_ống/3_trai_gan.wav"]
+
+# cqt_drone, sr = get_CQT_of_a_audio(drone_path)
+
+# for pipe_path in other_pipes_path:
+#     cqt_pipe, sr = get_CQT_of_a_audio(pipe_path)
+#     cqt_
     
 
 
