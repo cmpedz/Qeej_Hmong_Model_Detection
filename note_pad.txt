@@ -1,8 +1,0 @@
-*Quy ước nhãn:
-+ "silence"
-+ "drone"
-+ "noise" (có thể có cho các trường hợp có nhiễu)
-+ Tên các ong: P1, P2, P3, T1, T2, T3
-+ kết hợp giữa các ong khi phát ra dồng thời đc nối với nhau bằng "_": P1_P2_P3_drone, P1_drone
-+ P1 không bao giờ đi cùng với drone
-+ Quy ước thứ tự như sau: "drone_P1_P2_P3_T1_T2_T3"
