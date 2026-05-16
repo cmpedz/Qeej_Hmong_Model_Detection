@@ -1,0 +1,1 @@
+"""MKQH application package."""
