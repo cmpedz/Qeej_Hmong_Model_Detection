@@ -13,27 +13,21 @@ def run_cli_prediction(audio_path, threshold):
     if not input_path.is_file():
         raise FileNotFoundError(f"Cannot find audio file at {input_path}")
     if not is_allowed_audio_file(input_path.name):
-        raise ValueError("Only .wav audio files are supported.")
+        raise ValueError("Only .wav audio files are supported")
 
     result = run_inference(input_path, threshold=threshold)
-    print(f"Guide animation: {result.guide_media_path}")
-    print(f"Guide document: {result.guide_sheet_path}")
-    print(f"Detected active segments: {len(result.active_segments)}")
-    print(f"Predict workers: {result.predict_workers}")
-    for key, value in result.timings_ms.items():
-        print(f"  {key}: {format_milliseconds(value)}")
-    for segment in result.active_segments[:10]:
-        print(f"  {format_seconds(segment.start_second)}s - {format_seconds(segment.end_second)}s: {segment.label}")
+    print(f"Check guide animation path: {result.guide_media_path}")
+    print(f"Check guide document path: {result.guide_sheet_path}")
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Local MKQH web app for uploading audio and generating Qeej blowing instructions."
+        description="web app for uploading audio and generating Qeej blowing instructions"
     )
-    parser.add_argument("--host", default=HOST, help="Host for the local web server.")
-    parser.add_argument("--port", type=int, default=PORT, help="Port for the local web server.")
-    parser.add_argument("--predict", help="Run one-shot inference for an audio file instead of starting the web server.")
-    parser.add_argument("--threshold", type=float, default=MODEL_THRESHOLD, help="Decode threshold. Default is 0.8.")
+    parser.add_argument("--host", default=HOST, help="Host for the local web server")
+    parser.add_argument("--port", type=int, default=PORT, help="Port for the local web server")
+    parser.add_argument("--predict", help="Run one-shot inference for an audio file instead of starting the web server")
+    parser.add_argument("--threshold", type=float, default=MODEL_THRESHOLD, help="Decode threshold with default value is 0.7")
     return parser.parse_args()
 
 

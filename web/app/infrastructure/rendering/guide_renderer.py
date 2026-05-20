@@ -290,7 +290,7 @@ def draw_segment_row(draw, segment, row_index, y):
     if active_labels:
         draw_label_chips(draw, active_labels, text_x, text_y + 144)
     else:
-        draw.text((text_x, text_y + 146), "Khong co thao tac", fill="#6d4a2e", font=BODY_FONT)
+        draw.text((text_x, text_y + 146), "Không có thao tác", fill="#6d4a2e", font=BODY_FONT)
 
     diagram_x0 = x1 - 420
     diagram_y0 = y + 18

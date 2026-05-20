@@ -41,7 +41,7 @@ def predict_windows(model_input, max_workers=MAX_PREDICT_WORKERS):
         return predict_chunk(model_input)
 
     window_chunks = [chunk for chunk in np.array_split(model_input, worker_count, axis=0) if len(chunk) > 0]
-    with ThreadPoolExecutor(max_workers=len(window_chunks), thread_name_prefix="mkqh-predict") as executor:
+    with ThreadPoolExecutor(max_workers=len(window_chunks), thread_name_prefix="mkqh predict") as executor:
         chunk_predictions = list(executor.map(predict_chunk, window_chunks))
     return np.concatenate(chunk_predictions, axis=0)
 
@@ -59,9 +59,9 @@ def run_inference(audio_path, threshold=MODEL_THRESHOLD, max_workers=MAX_PREDICT
     windows, frame_ranges = build_windows(cqt, sr)
     timings_ms["build_windows"] = (perf_counter() - step_started_at) * 1000
     if len(frame_ranges) == 0:
-        raise ValueError("Doan am thanh qua ngan de du doan.")
+        raise ValueError("Đoạn âm thanh quá ngắn để phân tích")
     if windows.ndim != 3:
-        raise ValueError("Khong the tao cua so dac trung tu doan am thanh dau vao.")
+        raise ValueError("Không thể tạo cửa sổ đặc trưng từ đoạn âm thanh đầu vào")
 
     model_input = np.expand_dims(windows, axis=-1)
     worker_count = resolve_predict_workers(len(model_input), max_workers=max_workers)

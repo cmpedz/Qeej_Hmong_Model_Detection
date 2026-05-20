@@ -27,21 +27,13 @@ def render_page(result=None, error_message=""):
             f"<div class='metric'><span>{html.escape(label)}</span><strong>{html.escape(format_milliseconds(value))}</strong></div>"
             for label, value in result.timings_ms.items()
         )
-        metrics_html = (
-            "<div class='result-grid'>"
-            f"<div class='metric'><span>Audio length</span><strong>{html.escape(format_seconds(result.duration_seconds))}s</strong></div>"
-            f"<div class='metric'><span>Total windows</span><strong>{result.total_windows}</strong></div>"
-            f"<div class='metric'><span>Predict workers</span><strong>{result.predict_workers}</strong></div>"
-            f"{timing_cards}"
-            "</div>"
-        )
+        
         result_html = render_results(
             media_url,
             media_kind=media_kind,
             guide_sheet_url=guide_sheet_url,
             guide_sheet_download_url=guide_sheet_download_url,
-            guide_sheet_name=result.guide_sheet_path.name,
-            metrics_html=metrics_html,
+            guide_sheet_name=result.guide_sheet_path.name
         )
 
     return f"""<!DOCTYPE html>

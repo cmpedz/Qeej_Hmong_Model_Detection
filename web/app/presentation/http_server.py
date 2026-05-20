@@ -30,12 +30,12 @@ class MKQHRequestHandler(BaseHTTPRequestHandler):
             self.handle_media(parsed_url)
             return
 
-        self.send_error(HTTPStatus.NOT_FOUND, "Page not found.")
+        self.send_error(HTTPStatus.NOT_FOUND, "Không tìm thấy trang")
 
     def do_POST(self):
         parsed_url = urlparse(self.path)
         if parsed_url.path != "/predict":
-            self.send_error(HTTPStatus.NOT_FOUND, "Page not found.")
+            self.send_error(HTTPStatus.NOT_FOUND, "Không tìm thấy trang")
             return
         self.handle_predict()
 
@@ -43,7 +43,7 @@ class MKQHRequestHandler(BaseHTTPRequestHandler):
         request_started_at = perf_counter()
         content_type = self.headers.get("Content-Type", "")
         if "multipart/form-data" not in content_type:
-            self.send_html(render_page(error_message="Request phai la multipart/form-data."), status=HTTPStatus.BAD_REQUEST)
+            self.send_html(render_page(error_message="Dữ liệu gửi đi cần phải là multipart/form-data"), status=HTTPStatus.BAD_REQUEST)
             return
 
         content_length = int(self.headers.get("Content-Length", "0"))
@@ -51,15 +51,15 @@ class MKQHRequestHandler(BaseHTTPRequestHandler):
         form = parse_multipart_form_data(content_type, request_body)
 
         if "audio" not in form:
-            self.send_html(render_page(error_message="Bạn cần tải tệp audio."), status=HTTPStatus.BAD_REQUEST)
+            self.send_html(render_page(error_message="Bạn cần tải lên một tệp âm thanh"), status=HTTPStatus.BAD_REQUEST)
             return
 
         audio_field = form["audio"]
         if not audio_field.get("filename"):
-            self.send_html(render_page(error_message="Không đọc được file audio tải lên."), status=HTTPStatus.BAD_REQUEST)
+            self.send_html(render_page(error_message="Không thể đọc tệp âm thanh đã tải lên"), status=HTTPStatus.BAD_REQUEST)
             return
         if not is_allowed_audio_file(audio_field["filename"]):
-            self.send_html(render_page(error_message="Hệ thống chỉ hỗ trợ file âm thanh định dạng .wav."), status=HTTPStatus.BAD_REQUEST)
+            self.send_html(render_page(error_message="Hệ thống chỉ hỗ trợ tệp âm thanh định dạng .wav"), status=HTTPStatus.BAD_REQUEST)
             return
 
         reset_runtime_state()
@@ -79,16 +79,16 @@ class MKQHRequestHandler(BaseHTTPRequestHandler):
         relative_path = query.get("file", [None])[0]
         download_requested = query.get("download", ["0"])[0] == "1"
         if not relative_path:
-            self.send_error(HTTPStatus.BAD_REQUEST, "Missing file query.")
+            self.send_error(HTTPStatus.BAD_REQUEST, "Thiếu tham số file")
             return
 
         try:
             requested_path = resolve_output_media(relative_path)
         except PermissionError as exc:
-            self.send_error(HTTPStatus.FORBIDDEN, str(exc))
+            self.send_error(HTTPStatus.FORBIDDEN, "Bạn không có quyền truy cập tệp này")
             return
         except FileNotFoundError as exc:
-            self.send_error(HTTPStatus.NOT_FOUND, str(exc))
+            self.send_error(HTTPStatus.NOT_FOUND, "Tệp không tồn tại")
             return
 
         suffix = requested_path.suffix.lower()
@@ -138,7 +138,7 @@ def serve(host=HOST, port=PORT):
     server = ThreadingHTTPServer((host, port), MKQHRequestHandler)
     print(f"MKQH web is running at http://{host}:{port}")
     print(f"Using model: {MODEL_PATH}")
-    print("Press Ctrl+C to stop.")
+    print("Press Ctrl+C to stop")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

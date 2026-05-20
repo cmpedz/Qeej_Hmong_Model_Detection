@@ -6,8 +6,7 @@ def render_results(
     media_kind="image",
     guide_sheet_url="",
     guide_sheet_download_url="",
-    guide_sheet_name="guide_sheet.pdf",
-    metrics_html="",
+    guide_sheet_name="guide_sheet.pdf"
 ):
     media_html = (
         f'<img class="guide-media" src="{html.escape(media_url)}" alt="Hoat anh huong dan thoi khen Hmong">'
@@ -48,7 +47,6 @@ def render_results(
             </div>
           </div>
 
-          {metrics_html}
 
           <div class="media-layout">
               {media_html}
