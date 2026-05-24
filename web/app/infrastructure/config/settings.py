@@ -15,7 +15,7 @@ MODEL_PATH = WEB_ROOT / "model" / "fold_3.keras"
 UPLOAD_DIR = WEB_ROOT / "uploads"
 OUTPUT_DIR = WEB_ROOT / "outputs"
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 8000
 MODEL_THRESHOLD = 0.7
 TARGET_SAMPLE_RATE = 48000
