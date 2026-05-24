@@ -27,7 +27,7 @@ def save_uploaded_audio(audio_field):
 def resolve_output_media(relative_path):
     requested_path = (OUTPUT_DIR / relative_path).resolve()
     output_root = OUTPUT_DIR.resolve()
-    if output_root not in requested_path.parents:
+    if requested_path != output_root and output_root not in requested_path.parents:
         raise PermissionError("Invalid file path.")
     if not requested_path.is_file():
         raise FileNotFoundError("File not found.")
