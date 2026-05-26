@@ -28,3 +28,7 @@ Khi đã set up đầy đủ các thư viện cần thiết, để chạy websit
 python main.py
 ```
 
+## Nếu gặp lỗi Module Not Found: No module named 'pkg_resources'
+```bash
+pip install "setuptools<70.0.0"
+```
